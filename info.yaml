@@ -1,29 +1,41 @@
+yaml_version: 6
+
 project:
-  name: "tt_calculator"
-  author: "Aravindhan A"
-  description: "4-bit calculator using Verilog"
+  title: "Tiny Tapeout Calculator"
+  author: "Aravindhan"
+  description: "Simple 8-bit adder calculator"
   language: "Verilog"
-  clock_hz: 25000000
-
+  clock_hz: 1000000
   tiles: "1x1"
-
   top_module: "tt_um_calculator"
-
   source_files:
-    - "tt_um_calculator.v"
+    - "src/tt_um_calculator.v"
 
 pinout:
-  ui[0]: "A0"
-  ui[1]: "A1"
-  ui[2]: "A2"
-  ui[3]: "A3"
-  ui[4]: "B0"
-  ui[5]: "B1"
-  ui[6]: "B2"
-  ui[7]: "B3"
+  ui[0]: "input A bit0"
+  ui[1]: "input A bit1"
+  ui[2]: "input A bit2"
+  ui[3]: "input A bit3"
+  ui[4]: "input B bit0"
+  ui[5]: "input B bit1"
+  ui[6]: "input B bit2"
+  ui[7]: "input B bit3"
 
-  uo[0]: "SUM0"
-  uo[1]: "SUM1"
-  uo[2]: "SUM2"
-  uo[3]: "SUM3"
-  uo[4]: "CARRY"
+  uo[0]: "sum bit0"
+  uo[1]: "sum bit1"
+  uo[2]: "sum bit2"
+  uo[3]: "sum bit3"
+  uo[4]: "carry out"
+  uo[5]: "unused"
+  uo[6]: "unused"
+  uo[7]: "unused"
+
+  uio[0]: "unused"
+  uio[1]: "unused"
+  uio[2]: "unused"
+  uio[3]: "unused"
+  uio[4]: "unused"
+  uio[5]: "unused"
+  uio[6]: "unused"
+  uio[7]: "unused"
+
