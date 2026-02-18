@@ -1,20 +1,37 @@
-// TinyTapeout Calculator (Multiplier)
-// inputs: ui_in[3:0]  = A
-//         ui_in[7:4]  = B
-// output: uo_out[7:0] = Result
-
-module tt_um_calculator(
-    input  [7:0] ui_in,
-    output [7:0] uo_out
+// TinyTapeout top module
+module project (
+    input  wire clk,
+    input  wire rst_n,
+    input  wire ena,
+    input  wire [7:0] ui_in,
+    output reg  [7:0] uo_out,
+    input  wire [7:0] uio_in,
+    output wire [7:0] uio_out,
+    output wire [7:0] uio_oe
 );
 
-wire [3:0] A;
-wire [3:0] B;
+    // Not using bidirectional pins
+    assign uio_out = 8'b0;
+    assign uio_oe  = 8'b0;
 
-assign A = ui_in[3:0];
-assign B = ui_in[7:4];
+    reg [3:0] A;
+    reg [3:0] B;
+    reg [7:0] result;
 
-// multiply
-assign uo_out = A * B;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            uo_out <= 0;
+        end else if (ena) begin
+            // Split input switches into two numbers
+            A = ui_in[3:0];
+            B = ui_in[7:4];
+
+            // Simple calculator: ADD
+            result = A + B;
+
+            uo_out <= result;
+        end
+    end
 
 endmodule
+
