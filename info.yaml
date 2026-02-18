@@ -1,16 +1,14 @@
 yaml_version: 6
 
 project:
-  title: "4-bit Calculator"
-  author: "Aravindhan A"
-  description: "Simple 4-bit adder calculator for TinyTapeout"
-  language: "Verilog"
-  clock_hz: 1000000
-
+  title: "Calculator"
+  author: "Aravindhan"
+  description: "4-bit calculator (Add/Sub/Mul/AND)"
   tiles: "1x1"
   top_module: "tt_um_calculator"
   source_files:
-    - "project.v"
+    - "tt_um_calculator.v"
+
 
 pinout:
   # Inputs from switches
