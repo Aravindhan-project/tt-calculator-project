@@ -14,7 +14,7 @@ module tb;
     wire [7:0] uio_oe;
 
     // Instantiate YOUR project (top module name MUST be project)
-    project uut (
+    tt_um_calculator uut (
         .clk(clk),
         .rst_n(rst_n),
         .ena(ena),
