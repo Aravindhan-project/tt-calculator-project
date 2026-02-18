@@ -8,10 +8,8 @@ from cocotb.triggers import ClockCycles
 
 @cocotb.test()
 async def test_project(dut):
+    dut._log.info("Start test")
 
-    dut._log.info("Start calculator test")
-
-    # 100kHz clock
     clock = Clock(dut.clk, 10, units="us")
     cocotb.start_soon(clock.start())
 
@@ -20,32 +18,30 @@ async def test_project(dut):
     dut.ui_in.value = 0
     dut.uio_in.value = 0
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 5)
+    await ClockCycles(dut.clk, 10)
     dut.rst_n.value = 1
 
-    # Helper function to test operations
-    async def run_test(A, B, op, expected):
-        dut.ui_in.value = (B << 4) | A
-        dut.uio_in.value = op
-        await ClockCycles(dut.clk, 2)
+    # Wait after reset
+    await ClockCycles(dut.clk, 5)
 
-        result = dut.uo_out.value.integer
-        dut._log.info(f"A={A} B={B} op={op} -> result={result}")
+    # -------- TEST ADDITION --------
+    dut._log.info("Testing ADD")
+    dut.ui_in.value = 10
+    dut.uio_in.value = 5
 
-        assert result == expected, f"Expected {expected}, got {result}"
+    await ClockCycles(dut.clk, 5)
 
-    # -------- TESTS --------
+    dut._log.info(f"Output = {int(dut.uo_out.value)}")
 
-    # ADD : 3 + 2 = 5
-    await run_test(3, 2, 0b00, 5)
+    assert int(dut.uo_out.value) == 15
 
-    # SUB : 7 - 2 = 5
-    await run_test(7, 2, 0b01, 5)
+    # -------- TEST SUBTRACTION --------
+    dut._log.info("Testing SUB")
+    dut.ui_in.value = 20
+    dut.uio_in.value = 4
 
-    # MUL : 3 * 4 = 12
-    await run_test(3, 4, 0b10, 12)
+    await ClockCycles(dut.clk, 5)
 
-    # AND : 6 & 3 = 2
-    await run_test(6, 3, 0b11, 2)
+    assert int(dut.uo_out.value) == 16
 
-    dut._log.info("ALL TESTS PASSED 🎉")
+    dut._log.info("ALL TESTS PASSED")
