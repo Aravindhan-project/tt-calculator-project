@@ -6,8 +6,11 @@ project:
   description: "4-bit calculator (Add/Sub/Mul/AND)"
   tiles: "1x1"
   top_module: "tt_um_calculator"
+  language: "Verilog"
+  clock_hz: 100000
   source_files:
     - "tt_um_calculator.v"
+    
 
 
 pinout:
