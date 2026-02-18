@@ -4,17 +4,14 @@
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
-import os
-
-# Tell cocotb the correct top module
-os.environ["TOPLEVEL"] = "tt_um_calculator"
 
 
 @cocotb.test()
 async def test_project(dut):
-    dut._log.info("Start simulation")
 
-    # Start clock
+    dut._log.info("Start calculator test")
+
+    # 100kHz clock
     clock = Clock(dut.clk, 10, units="us")
     cocotb.start_soon(clock.start())
 
@@ -23,20 +20,32 @@ async def test_project(dut):
     dut.ui_in.value = 0
     dut.uio_in.value = 0
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 10)
+    await ClockCycles(dut.clk, 5)
     dut.rst_n.value = 1
 
-    # Give some dummy inputs
-    dut.ui_in.value = 0b00110010
-    await ClockCycles(dut.clk, 5)
+    # Helper function to test operations
+    async def run_test(A, B, op, expected):
+        dut.ui_in.value = (B << 4) | A
+        dut.uio_in.value = op
+        await ClockCycles(dut.clk, 2)
 
-    dut.ui_in.value = 0b01010101
-    await ClockCycles(dut.clk, 5)
+        result = dut.uo_out.value.integer
+        dut._log.info(f"A={A} B={B} op={op} -> result={result}")
 
-    dut.ui_in.value = 0b11110000
-    await ClockCycles(dut.clk, 5)
+        assert result == expected, f"Expected {expected}, got {result}"
 
-    dut._log.info("Simulation completed successfully")
+    # -------- TESTS --------
 
-    # ⭐ THIS LINE MAKES THE TEST PASS
-    assert True
+    # ADD : 3 + 2 = 5
+    await run_test(3, 2, 0b00, 5)
+
+    # SUB : 7 - 2 = 5
+    await run_test(7, 2, 0b01, 5)
+
+    # MUL : 3 * 4 = 12
+    await run_test(3, 4, 0b10, 12)
+
+    # AND : 6 & 3 = 2
+    await run_test(6, 3, 0b11, 2)
+
+    dut._log.info("ALL TESTS PASSED 🎉")
