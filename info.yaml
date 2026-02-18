@@ -1,20 +1,18 @@
-yaml_version: 6
-
 project:
-  title: "Calculator"
-  author: "Aravindhan"
-  description: "4-bit calculator (Add/Sub/Mul/AND)"
-  tiles: "1x1"
-  top_module: "tt_um_calculator"
+  name: "tt_calculator"
+  author: "Aravindhan A"
+  description: "4-bit calculator using Verilog"
   language: "Verilog"
-  clock_hz: 100000
+  clock_hz: 25000000
+
+  tiles: "1x1"
+
+  top_module: "tt_um_calculator"
+
   source_files:
     - "tt_um_calculator.v"
-    
-
 
 pinout:
-  # Inputs from switches
   ui[0]: "A0"
   ui[1]: "A1"
   ui[2]: "A2"
@@ -24,22 +22,8 @@ pinout:
   ui[6]: "B2"
   ui[7]: "B3"
 
-  # Outputs to LEDs
   uo[0]: "SUM0"
   uo[1]: "SUM1"
   uo[2]: "SUM2"
   uo[3]: "SUM3"
   uo[4]: "CARRY"
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
-
-  # Bidirectional pins (unused)
-  uio[0]: ""
-  uio[1]: ""
-  uio[2]: ""
-  uio[3]: ""
-  uio[4]: ""
-  uio[5]: ""
-  uio[6]: ""
-  uio[7]: ""
