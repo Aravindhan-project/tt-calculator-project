@@ -1,5 +1,6 @@
 // TinyTapeout top module
-module project (
+module tt_um_calculator (
+
     input  wire clk,
     input  wire rst_n,
     input  wire ena,
