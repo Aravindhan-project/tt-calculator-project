@@ -4,6 +4,9 @@
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
+import os
+os.environ["TOPLEVEL"] = "tt_um_calculator"
+
 
 
 @cocotb.test()
